@@ -121,6 +121,10 @@ export async function runAgentLoop({
   while (iterations < maxIterations) {
     iterations++;
 
+    if (iterations > 1) {
+      onProgress?.(`Synthesizing responsive HTML layout and Tailwind CSS classes (iteration ${iterations})...`);
+    }
+
     const requestParams = {
       model: activeModel,
       messages,

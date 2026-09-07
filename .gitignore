@@ -8,3 +8,5 @@ yarn-error.log*
 *.log
 coverage/
 public/images/
+public/
+assets/

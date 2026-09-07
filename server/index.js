@@ -22,6 +22,10 @@ const publicDir = path.resolve(__dirname, '../public');
 app.use('/public', express.static(publicDir));
 app.use(express.static(publicDir));
 
+const assetsDir = path.resolve(__dirname, '../assets');
+app.use('/assets', express.static(assetsDir));
+app.use(express.static(assetsDir));
+
 /**
  * Health check endpoint
  */
@@ -57,6 +61,10 @@ app.post('/api/convert', async (req, res) => {
     });
   }
 
+  console.log(`\n[API /api/convert] Starting conversion...`);
+  console.log(`- Desktop URL: ${desktopUrl}`);
+  console.log(`- Mobile URL:  ${mobileUrl}`);
+
   // Set socket to send immediately without Nagle buffering
   req.socket?.setNoDelay(true);
 
@@ -70,6 +78,7 @@ app.post('/api/convert', async (req, res) => {
   let clientConnected = true;
   req.on('close', () => {
     clientConnected = false;
+    console.log('[API /api/convert] Client disconnected');
   });
 
   const sendEvent = (event, data) => {
@@ -100,15 +109,18 @@ app.post('/api/convert', async (req, res) => {
       openaiApiKey,
       model: process.env.OPENAI_MODEL || 'gpt-5.6-luna',
       onProgress: (message) => {
+        console.log(`[PROGRESS] ${message}`);
         sendEvent('progress', { message });
       },
     });
 
     const { html } = await Promise.race([conversionPromise, timeoutPromise]);
 
+    console.log(`[API /api/convert] SUCCESS! Generated HTML (${html.length} chars). Sending done event.`);
     sendEvent('done', { html });
     res.end();
   } catch (err) {
+    console.error(`[API /api/convert] ERROR:`, err.message);
     sendEvent('error', {
       error: err.message || 'An unexpected error occurred during conversion.',
     });

@@ -455,6 +455,9 @@
                   outputSection.classList.remove('hidden');
                   setStatus('Completed', 'success');
                   appendProgress('Ready! Responsive HTML preview is loaded below.');
+                  setTimeout(() => {
+                    outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 150);
                 } else if (eventType === 'error') {
                   showError(parsed.error || 'Unknown conversion error.');
                   appendProgress(`Error: ${parsed.error}`, true);
