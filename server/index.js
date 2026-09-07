@@ -75,16 +75,15 @@ app.post('/api/convert', async (req, res) => {
   res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy buffering if behind nginx
   res.flushHeaders?.();
 
-  let clientConnected = true;
-  req.on('close', () => {
-    clientConnected = false;
-    console.log('[API /api/convert] Client disconnected');
+  res.on('close', () => {
+    if (!res.writableEnded) {
+      console.log('[API /api/convert] Client disconnected before completion');
+    }
   });
 
   const sendEvent = (event, data) => {
-    if (!clientConnected || res.writableEnded) return;
+    if (res.writableEnded || res.destroyed) return;
     res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
-    // Flush if compression/buffering middleware is present
     if (typeof res.flush === 'function') {
       res.flush();
     }
