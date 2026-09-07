@@ -121,11 +121,31 @@ export async function runAgentLoop({
   while (iterations < maxIterations) {
     iterations++;
 
-    const response = await openai.chat.completions.create({
+    const requestParams = {
       model: activeModel,
       messages,
       tools: openaiTools.length > 0 ? openaiTools : undefined,
-    });
+    };
+
+    // gpt-5 and o-series reasoning models require reasoning_effort: 'none' when function tools are used in /v1/chat/completions
+    if (activeModel.includes('gpt-5') || activeModel.startsWith('o1') || activeModel.startsWith('o3')) {
+      requestParams.reasoning_effort = 'none';
+    }
+
+    let response;
+    try {
+      response = await openai.chat.completions.create(requestParams);
+    } catch (err) {
+      if (err.message && (err.message.includes("reasoning_effort to 'none'") || err.message.includes('reasoning_effort'))) {
+        requestParams.reasoning_effort = 'none';
+        response = await openai.chat.completions.create(requestParams);
+      } else if (err.message && err.message.includes('Unrecognized request argument supplied: reasoning_effort')) {
+        delete requestParams.reasoning_effort;
+        response = await openai.chat.completions.create(requestParams);
+      } else {
+        throw err;
+      }
+    }
 
     const choice = response.choices[0];
     const message = choice.message;

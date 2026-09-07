@@ -17,6 +17,7 @@ export async function createMcpClient(figmaToken) {
     ...process.env,
     FIGMA_API_KEY: figmaToken.trim(),
     FIGMA_ACCESS_TOKEN: figmaToken.trim(),
+    IMAGE_DIR: process.cwd(),
   };
 
   const transport = new StdioClientTransport({
