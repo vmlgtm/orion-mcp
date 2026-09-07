@@ -65,4 +65,20 @@ describe('system-prompt', () => {
     assert.match(SYSTEM_PROMPT, /tailwind\.config/i);
     assert.match(SYSTEM_PROMPT, /theme\.extend/i);
   });
+
+  it('should include explicit Auto-Layout transpilation mapping table', () => {
+    assert.match(SYSTEM_PROMPT, /AUTO-LAYOUT TRANSPILATION TABLE/i);
+    assert.match(SYSTEM_PROMPT, /layoutMode == "VERTICAL"/i);
+    assert.match(SYSTEM_PROMPT, /layoutMode == "HORIZONTAL"/i);
+    assert.match(SYSTEM_PROMPT, /primaryAxisAlignItems/i);
+  });
+
+  it('should strictly prohibit exporting text as images and enforce live semantic HTML', () => {
+    assert.match(SYSTEM_PROMPT, /PROHIBIT TEXT-AS-IMAGES/i);
+    assert.match(SYSTEM_PROMPT, /NEVER export text headings/i);
+  });
+
+  it('should include visual reference grounding instruction', () => {
+    assert.match(SYSTEM_PROMPT, /VISUAL REFERENCE GROUNDING/i);
+  });
 });

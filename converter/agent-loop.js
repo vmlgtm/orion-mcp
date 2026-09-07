@@ -44,12 +44,72 @@ export function extractHtml(text) {
 }
 
 /**
+ * Fetches high-resolution rendered PNG URLs for the desktop and mobile Figma frames.
+ * Returns { desktopImageUrl, mobileImageUrl } or null if unavailable.
+ *
+ * @param {object} options
+ * @param {string} options.desktopUrl
+ * @param {string} options.mobileUrl
+ * @param {string} [options.figmaToken]
+ * @param {function} [options.onProgress]
+ * @returns {Promise<{ desktopImageUrl: string|null, mobileImageUrl: string|null }>}
+ */
+export async function fetchFigmaFramePreviews({ desktopUrl, mobileUrl, figmaToken, onProgress }) {
+  const token = figmaToken || process.env.FIGMA_ACCESS_TOKEN || process.env.FIGMA_API_KEY;
+  if (!token) return { desktopImageUrl: null, mobileImageUrl: null };
+
+  let desktopParsed, mobileParsed;
+  try {
+    desktopParsed = parseFigmaUrl(desktopUrl);
+    mobileParsed = parseFigmaUrl(mobileUrl);
+  } catch {
+    return { desktopImageUrl: null, mobileImageUrl: null };
+  }
+
+  const headers = { 'X-Figma-Token': token.trim() };
+
+  try {
+    onProgress?.('Fetching high-resolution visual previews of Figma frames for multimodal inspection...');
+
+    const [desktopResult, mobileResult] = await Promise.allSettled([
+      fetch(
+        `https://api.figma.com/v1/images/${desktopParsed.fileKey}?ids=${desktopParsed.nodeId}&format=png&scale=1`,
+        { headers }
+      ).then((res) => (res.ok ? res.json() : null)),
+      fetch(
+        `https://api.figma.com/v1/images/${mobileParsed.fileKey}?ids=${mobileParsed.nodeId}&format=png&scale=1`,
+        { headers }
+      ).then((res) => (res.ok ? res.json() : null)),
+    ]);
+
+    const desktopImageUrl =
+      desktopResult.status === 'fulfilled'
+        ? desktopResult.value?.images?.[desktopParsed.nodeId] || null
+        : null;
+
+    const mobileImageUrl =
+      mobileResult.status === 'fulfilled'
+        ? mobileResult.value?.images?.[mobileParsed.nodeId] || null
+        : null;
+
+    if (desktopImageUrl || mobileImageUrl) {
+      onProgress?.('Successfully attached visual frame previews for multimodal vision analysis.');
+    }
+
+    return { desktopImageUrl, mobileImageUrl };
+  } catch {
+    return { desktopImageUrl: null, mobileImageUrl: null };
+  }
+}
+
+/**
  * Executes the OpenAI function calling loop with the Figma MCP client.
  *
  * @param {object} options
  * @param {object} options.mcpClient - Connected MCP Client instance.
  * @param {string} options.desktopUrl - Desktop Figma frame URL.
  * @param {string} options.mobileUrl - Mobile Figma frame URL.
+ * @param {string} [options.figmaToken] - Optional Figma token to fetch visual frame previews.
  * @param {function} [options.onProgress] - Optional progress callback `(msg: string) => void`.
  * @param {string} [options.openaiApiKey] - Optional OpenAI API key (defaults to env var).
  * @param {string} [options.model] - Optional OpenAI model (defaults to OPENAI_MODEL env var or gpt-5.6-luna).
@@ -60,6 +120,7 @@ export async function runAgentLoop({
   mcpClient,
   desktopUrl,
   mobileUrl,
+  figmaToken,
   onProgress,
   openaiApiKey,
   model,
@@ -102,6 +163,55 @@ export async function runAgentLoop({
     // Keep raw URL if parse fails
   }
 
+  // Attempt to fetch visual frame previews to enable multimodal vision reasoning
+  const { desktopImageUrl, mobileImageUrl } = await fetchFigmaFramePreviews({
+    desktopUrl,
+    mobileUrl,
+    figmaToken,
+    onProgress,
+  });
+
+  const userContent = [
+    {
+      type: 'text',
+      text: `Convert these two Figma designs into a single responsive HTML page:
+- Desktop: ${desktopContext}
+- Mobile: ${mobileContext}`,
+    },
+  ];
+
+  if (desktopImageUrl) {
+    userContent.push(
+      {
+        type: 'text',
+        text: 'Visual reference screenshot for DESKTOP design:',
+      },
+      {
+        type: 'image_url',
+        image_url: {
+          url: desktopImageUrl,
+          detail: 'high',
+        },
+      }
+    );
+  }
+
+  if (mobileImageUrl) {
+    userContent.push(
+      {
+        type: 'text',
+        text: 'Visual reference screenshot for MOBILE design:',
+      },
+      {
+        type: 'image_url',
+        image_url: {
+          url: mobileImageUrl,
+          detail: 'high',
+        },
+      }
+    );
+  }
+
   const messages = [
     {
       role: 'system',
@@ -109,9 +219,7 @@ export async function runAgentLoop({
     },
     {
       role: 'user',
-      content: `Convert these two Figma designs into a single responsive HTML page:
-- Desktop: ${desktopContext}
-- Mobile: ${mobileContext}`,
+      content: userContent.length === 1 ? userContent[0].text : userContent,
     },
   ];
 

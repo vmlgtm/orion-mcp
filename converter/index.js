@@ -59,6 +59,7 @@ export async function convertFigmaToHtml({
       mcpClient: client,
       desktopUrl,
       mobileUrl,
+      figmaToken: effectiveFigmaToken,
       onProgress,
       openaiApiKey: effectiveOpenaiKey,
       model,

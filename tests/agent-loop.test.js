@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractHtml } from '../converter/agent-loop.js';
+import { extractHtml, fetchFigmaFramePreviews } from '../converter/agent-loop.js';
 
 describe('agent-loop extractHtml', () => {
   it('should extract HTML wrapped in markdown code fence', () => {
@@ -51,5 +51,34 @@ Let me know if you need anything else!`;
 
   it('should throw error on non-string input', () => {
     assert.throws(() => extractHtml(null), /did not contain text content/);
+  });
+});
+
+describe('agent-loop fetchFigmaFramePreviews', () => {
+  it('should return null previews when figmaToken is not provided', async () => {
+    const originalToken = process.env.FIGMA_ACCESS_TOKEN;
+    const originalKey = process.env.FIGMA_API_KEY;
+    delete process.env.FIGMA_ACCESS_TOKEN;
+    delete process.env.FIGMA_API_KEY;
+
+    try {
+      const result = await fetchFigmaFramePreviews({
+        desktopUrl: 'https://www.figma.com/design/ABC/Test?node-id=1:1',
+        mobileUrl: 'https://www.figma.com/design/ABC/Test?node-id=1:2',
+      });
+      assert.deepEqual(result, { desktopImageUrl: null, mobileImageUrl: null });
+    } finally {
+      if (originalToken) process.env.FIGMA_ACCESS_TOKEN = originalToken;
+      if (originalKey) process.env.FIGMA_API_KEY = originalKey;
+    }
+  });
+
+  it('should return null previews when URLs cannot be parsed', async () => {
+    const result = await fetchFigmaFramePreviews({
+      desktopUrl: 'not-a-valid-url',
+      mobileUrl: 'also-invalid',
+      figmaToken: 'test-token',
+    });
+    assert.deepEqual(result, { desktopImageUrl: null, mobileImageUrl: null });
   });
 });
