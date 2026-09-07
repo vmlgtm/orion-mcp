@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractHtml, fetchFigmaFramePreviews } from '../converter/agent-loop.js';
+import { extractHtml, fetchFigmaFramePreviews, runVisualRefinementPass } from '../converter/agent-loop.js';
 
 describe('agent-loop extractHtml', () => {
   it('should extract HTML wrapped in markdown code fence', () => {
@@ -80,5 +80,40 @@ describe('agent-loop fetchFigmaFramePreviews', () => {
       figmaToken: 'test-token',
     });
     assert.deepEqual(result, { desktopImageUrl: null, mobileImageUrl: null });
+  });
+});
+
+describe('agent-loop runVisualRefinementPass', () => {
+  it('should return initialHtml when neither desktop nor mobile image URL is provided', async () => {
+    const html = '<!DOCTYPE html><html><body>Test</body></html>';
+    const result = await runVisualRefinementPass({
+      initialHtml: html,
+      desktopImageUrl: null,
+      mobileImageUrl: null,
+    });
+    assert.equal(result, html);
+  });
+
+  it('should gracefully fallback to initialHtml on client or rendering errors', async () => {
+    const html = '<!DOCTYPE html><html><body>Test Error Case</body></html>';
+    const mockOpenai = {
+      chat: {
+        completions: {
+          create: async () => {
+            throw new Error('Simulated API failure');
+          },
+        },
+      },
+    };
+
+    const result = await runVisualRefinementPass({
+      initialHtml: html,
+      desktopImageUrl: 'https://example.com/desktop.png',
+      mobileImageUrl: 'https://example.com/mobile.png',
+      openai: mockOpenai,
+      activeModel: 'gpt-5.6-luna',
+    });
+
+    assert.equal(result, html);
   });
 });

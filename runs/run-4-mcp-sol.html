@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tata 1mg Diagnostics</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            figtree: ["Figtree", "sans-serif"],
+            cabinet: ["Cabinet Grotesk", "Figtree", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
+<body class="m-0 overflow-x-hidden bg-white font-figtree text-[#313030]">
+
+  <header class="bg-[#EB5C57]">
+    <div class="mx-auto max-w-[1440px] px-6 pt-4 md:px-[62px] md:pt-5">
+      <img
+        src="assets/header-logos.svg"
+        alt="Tata 1mg Labs"
+        class="h-auto w-full"
+      >
+    </div>
+
+    <div class="mx-auto flex max-w-[1440px] flex-col md:flex-row">
+      <div class="z-10 flex flex-1 flex-col items-center px-6 pt-12 text-center md:items-start md:px-[61px] md:pt-[112px]">
+        <img
+          src="assets/hero-offer.svg"
+          alt="Get Extra 15% off on scans and lab tests"
+          class="w-full max-w-[395px] md:max-w-[787px]"
+        >
+
+        <img
+          src="assets/hero-benefits.svg"
+          alt="Trusted and accredited labs, zero waiting time, same-day lab reports"
+          class="mt-8 w-full max-w-[360px] md:mt-8 md:max-w-[557px]"
+        >
+      </div>
+
+      <div class="mt-3 flex justify-end md:mt-0 md:w-[51%]">
+        <img
+          src="assets/hero-woman-20d945.png"
+          alt=""
+          class="w-[57%] max-w-[307px] self-end object-contain md:w-full md:max-w-[520px]"
+        >
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="bg-[#FDF0E0] px-5 py-6 md:px-8 md:py-[38px]">
+      <div class="mx-auto max-w-[1030px]">
+        <form class="flex flex-col items-center gap-4 md:flex-row md:gap-3">
+          <h2 class="w-full text-center font-cabinet text-[26px] font-extrabold leading-8 md:w-[272px] md:text-left md:text-[30px] md:leading-9">
+            Get a callback from our health advisor
+          </h2>
+
+          <div class="grid w-full grid-cols-3 gap-2 md:flex md:flex-1 md:gap-2">
+            <input
+              type="text"
+              aria-label="Name"
+              placeholder="Name"
+              class="min-w-0 border border-[#6B6B6B] bg-white px-3 py-4 text-sm text-[#313030] outline-none placeholder:text-[#717171] md:h-[52px] md:w-1/3 md:text-lg"
+            >
+            <input
+              type="tel"
+              aria-label="Number"
+              placeholder="Number"
+              class="min-w-0 border border-[#6B6B6B] bg-white px-3 py-4 text-sm text-[#313030] outline-none placeholder:text-[#717171] md:h-[52px] md:w-1/3 md:text-lg"
+            >
+            <input
+              type="text"
+              aria-label="Nearest lab centre"
+              placeholder="Nearest lab centre"
+              class="min-w-0 border border-[#6B6B6B] bg-white px-3 py-4 text-sm text-[#313030] outline-none placeholder:text-[#717171] md:h-[52px] md:w-1/3 md:text-lg"
+            >
+          </div>
+
+          <button
+            type="submit"
+            class="h-[60px] w-full rounded-[10px] bg-black text-[18px] font-bold uppercase text-white md:h-[52px] md:w-[159px] md:rounded-none"
+          >
+            Book now
+          </button>
+        </form>
+
+        <p class="mt-1 text-center text-[12px] font-medium leading-7 text-[#464646] md:text-right md:text-[11px]">
+          <span class="md:hidden">*Prices are subject to change as per city</span>
+          <span class="hidden md:inline">*Prices subject to change as per centre</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-12">
+      <h2 class="px-5 text-center font-cabinet text-[28px] font-medium leading-9 text-[#3A3A3A] md:text-[39px] md:leading-[41px]">
+        Comprehensive health packages
+      </h2>
+
+      <div class="mx-auto mt-8 flex max-w-[980px] snap-x gap-5 overflow-x-auto px-12 pb-4 md:grid md:grid-cols-3 md:overflow-visible md:px-8">
+        <article class="min-w-[223px] snap-center overflow-hidden rounded-[10px] border border-[#FBE1D2] bg-[#FFFCF2] md:min-w-0">
+          <img src="assets/package-gold-56586a.png" alt="" class="h-[149px] w-full object-cover md:h-[195px]">
+
+          <div class="flex min-h-[180px] flex-col items-center px-4 pb-4 pt-3 text-center">
+            <h3 class="text-[16px] leading-[24px] md:text-[18px] md:leading-[23px]">
+              Comprehensive Gold Package with ECG &amp; USG Whole Abdomen
+            </h3>
+
+            <p class="mt-auto text-[19px]">
+              <span class="text-[#6B6B6B] line-through">₹6665</span>
+              <strong class="ml-1 text-[26px]">₹3999</strong>
+            </p>
+
+            <span class="mt-2 rounded-[10px] bg-[#FF6657] px-6 py-2 text-[17px] font-semibold text-white">
+              Save 15%
+            </span>
+          </div>
+        </article>
+
+        <article class="min-w-[223px] snap-center overflow-hidden rounded-[10px] border border-[#FBE1D2] bg-[#FFFCF2] md:min-w-0">
+          <img src="assets/package-platinum-pft-56586a.png" alt="" class="h-[149px] w-full object-cover md:h-[195px]">
+
+          <div class="flex min-h-[180px] flex-col items-center px-4 pb-4 pt-3 text-center">
+            <h3 class="text-[16px] leading-[24px] md:text-[18px] md:leading-[23px]">
+              Comprehensive Platinum Package with ECG, USG Whole Abdomen &amp; PFT
+            </h3>
+
+            <p class="mt-auto text-[19px]">
+              <span class="text-[#6B6B6B] line-through">₹10258</span>
+              <strong class="ml-1 text-[26px]">₹5129</strong>
+            </p>
+
+            <span class="mt-2 rounded-[10px] bg-[#FF6657] px-6 py-2 text-[17px] font-semibold text-white">
+              Save 15%
+            </span>
+          </div>
+        </article>
+
+        <article class="min-w-[223px] snap-center overflow-hidden rounded-[10px] border border-[#FBE1D2] bg-[#FFFCF2] md:min-w-0">
+          <img src="assets/package-platinum-echo-56586a.png" alt="" class="h-[149px] w-full object-cover md:h-[195px]">
+
+          <div class="flex min-h-[180px] flex-col items-center px-4 pb-4 pt-3 text-center">
+            <h3 class="text-[16px] leading-[24px] md:text-[18px] md:leading-[23px]">
+              Comprehensive Platinum Package with ECG, USG Whole Abdomen &amp; 2D-Echo
+            </h3>
+
+            <p class="mt-auto text-[19px]">
+              <span class="text-[#6B6B6B] line-through">₹11110</span>
+              <strong class="ml-1 text-[26px]">₹6666</strong>
+            </p>
+
+            <span class="mt-2 rounded-[10px] bg-[#FF6657] px-6 py-2 text-[17px] font-semibold text-white">
+              Save 15%
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="pb-14 pt-2 md:pb-12">
+      <h2 class="px-5 text-center font-cabinet text-[28px] font-medium leading-9 text-[#3A3A3A] md:text-[39px] md:leading-[47px]">
+        Scans &amp; lab tests
+      </h2>
+
+      <div class="mx-auto mt-7 grid max-w-[1160px] grid-cols-3 gap-3 px-12 md:grid-cols-4 md:gap-7 md:px-0">
+        <article class="text-center">
+          <img src="assets/usg.png" alt="" class="aspect-square w-full object-cover">
+          <h3 class="mt-2 text-[20px] font-bold uppercase md:text-[27px]">USG</h3>
+        </article>
+
+        <article class="text-center">
+          <img src="assets/ecg.png" alt="" class="aspect-square w-full object-cover">
+          <h3 class="mt-2 text-[20px] font-bold uppercase md:text-[27px]">ECG</h3>
+        </article>
+
+        <article class="text-center">
+          <img src="assets/echo.png" alt="" class="aspect-square w-full object-cover">
+          <h3 class="mt-2 text-[20px] font-bold md:text-[27px]">Echo</h3>
+        </article>
+
+        <article class="hidden text-center md:block">
+          <img src="assets/tmt.png" alt="" class="aspect-square w-full object-cover">
+          <h3 class="mt-2 text-[27px] font-bold leading-9">Treadmill Test<br>(TMT)</h3>
+        </article>
+      </div>
+
+      <div class="mx-auto mt-8 h-px w-[68px] bg-[#989898] md:w-[96px]"></div>
+    </section>
+
+    <section class="px-6 pb-5 md:px-0 md:pb-0">
+      <div class="mx-auto max-w-[596px] rounded-lg bg-[#EB5C57] px-6 py-6 text-white md:hidden">
+        <h2 class="text-center text-[23px] font-semibold leading-7">
+          Visit our lab for a wide range of lab tests &amp; full body checkups
+        </h2>
+
+        <div class="mt-5 grid grid-cols-2 gap-5 text-[18px] leading-6">
+          <div>
+            <p>DDA Plot 454, Sector 19, Dwarka</p>
+            <p class="mt-3 font-bold">892-907-0707</p>
+          </div>
+
+          <div class="border-l border-[#D9D9D9] pl-5">
+            <p>Mon to Sat: 7 AM-7 PM<br>Sun: 7 AM-2 PM</p>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center">
+          <a href="#" class="inline-block rounded-md bg-black px-5 py-3 text-[18px] font-semibold text-white">
+            Get directions to lab
+          </a>
+        </div>
+      </div>
+
+      <div class="hidden bg-[#EB5C57] px-8 py-9 text-white md:block">
+        <div class="mx-auto flex max-w-[1086px] items-end justify-between gap-8">
+          <div class="flex-1">
+            <h2 class="font-cabinet text-[31px] font-extrabold tracking-tight">
+              Visit our lab for a wide range of lab tests and full body checkups
+            </h2>
+
+            <div class="mt-3 grid max-w-[780px] grid-cols-[1fr_1px_0.8fr] gap-9 text-[28px] leading-[46px]">
+              <div>
+                <p>DDA Plot 454, Sector 19, Dwarka</p>
+                <p class="font-bold">892-907-0707</p>
+              </div>
+              <div class="bg-[#D9D9D9]"></div>
+              <p>Mon to Sat: 7 AM-7 PM<br>Sun: 7 AM-2 PM</p>
+            </div>
+          </div>
+
+          <a href="#" class="mb-4 rounded-[13px] bg-black px-8 py-4 text-[24px] font-semibold">
+            Get directions to lab
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#FDF0E0] px-6 py-6 md:mt-8 md:px-8 md:py-7">
+      <div class="mx-auto max-w-[1027px]">
+        <h2 class="text-center font-cabinet text-[31px] font-extrabold leading-[38px] md:text-left">
+          Choose Tata 1mg Labs for
+        </h2>
+
+        <div class="mt-7 grid grid-cols-2 gap-x-6 gap-y-7 md:mt-0 md:grid-cols-3 md:pl-[420px]">
+          <article class="text-center">
+            <img src="assets/trusted-labs.png" alt="" class="mx-auto h-[70px] w-[70px] object-contain">
+            <p class="mt-2 text-[18px] font-medium leading-6 md:text-[20px]">
+              Trusted &amp;<br>Accredited Labs
+            </p>
+          </article>
+
+          <article class="hidden text-center md:block">
+            <img src="assets/hygienic.png" alt="" class="mx-auto h-[70px] w-[70px] object-contain">
+            <p class="mt-2 text-[20px] font-medium leading-6">
+              Hygienic Sample Collection
+            </p>
+          </article>
+
+          <article class="text-center">
+            <img src="assets/fast-reports.png" alt="" class="mx-auto h-[70px] w-[70px] object-contain">
+            <p class="mt-2 text-[18px] font-medium leading-6 md:text-[20px]">
+              Accurate<br>&amp; Fast Reports
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 py-14 md:px-8 md:py-16">
+      <div class="mx-auto grid max-w-[1048px] gap-8 md:grid-cols-[378px_1fr] md:items-center">
+        <div>
+          <div class="flex flex-wrap items-center gap-4">
+            <h2 class="font-cabinet text-[31px] font-extrabold leading-[38px]">
+              Tata 1mg’s National Reference Lab<br class="hidden md:block"> in Delhi is
+            </h2>
+            <img src="assets/nabl-logo.png" alt="NABL" class="h-auto w-[186px]">
+          </div>
+        </div>
+
+        <img
+          src="assets/reference-lab.png"
+          alt="Tata 1mg National Reference Lab in Delhi"
+          class="w-full rounded-[24px] object-cover"
+        >
+      </div>
+
+      <div class="mx-auto mt-8 max-w-[1028px] border-t border-[#595959]/60 pt-7">
+        <h2 class="text-[30px] font-medium leading-[37px]">
+          India's trusted diagnostics services
+        </h2>
+
+        <div class="mt-5 grid grid-cols-3 divide-x divide-[#595959] text-center">
+          <div class="px-2">
+            <strong class="block text-[22px] font-bold text-[#FF6F61] md:text-[28px]">1 Crore+</strong>
+            <span class="mt-2 block text-[14px] md:text-[21px]">Tests Booked</span>
+          </div>
+
+          <div class="px-2">
+            <strong class="block text-[22px] font-bold text-[#FF6F61] md:text-[28px]">40 Lakhs+</strong>
+            <span class="mt-2 block text-[14px] md:text-[21px]">Satisfied Customers</span>
+          </div>
+
+          <div class="px-2">
+            <strong class="block text-[22px] font-bold text-[#FF6F61] md:text-[28px]">2000+</strong>
+            <span class="mt-2 block text-[14px] md:text-[21px]">Lab Tests Available</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#FBFBFB] px-8 py-8 text-[16px] font-medium leading-[22px] text-[#656565] md:px-12 md:py-14">
+      <div class="mx-auto max-w-[1030px]">
+        <h2>Terms and Conditions</h2>
+
+        <ol class="mt-1 list-decimal space-y-1 pl-5">
+          <li>By submitting the form above, you are allowing Tata 1mg Health Advisors to call you back at your convenient time.</li>
+          <li>Our health advisors will understand your diagnostics testing requirement &amp; help booking the right test or package for a convenient date &amp; time.</li>
+          <li>Once a booking is done, a well-trained phlebotomist (sample collector) will be assigned to visit you on your chosen time and address for collection of sample.</li>
+          <li>Your sample will then be transported to the nearest Tata 1mg facility maintaining the integrity of the sample and will be centrifuged before sending to the lab for processing.</li>
+          <li>After the testing, a report will be generated and sent over your registered email id. The report can also be downloaded from Tata 1mg App or Web portal.</li>
+          <li>Post report generation, you can avail Free Doctor Consultation on Tata 1mg App or web portal from our experienced team of Doctors.</li>
+          <li>Tata 1mg reserves its absolute right at any time to add, alter, withdraw, modify or change or vary any or all the terms and conditions of the offer at its sole discretion and the same shall be binding on the customer at all times.</li>
+          <li>By submitting the form above and entering your phone number you agree and allow Tata 1mg Healthcare Solutions Private Limited and / or its health providers to (1) call you back inter alia for promotion purposes, offering discounts, other service delivery related issues and/or to assist you in fulfilling your diagnostic test requirement(s). You also agree and allow us to (2) send you (a) text notifications, (b) text marketing offers and (c) health checkup reminders.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
