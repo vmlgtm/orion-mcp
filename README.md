@@ -86,7 +86,8 @@ Powered by the **Model Context Protocol (MCP)** via [`figma-developer-mcp`](http
     ├── figma-url-parser.test.js
     ├── system-prompt.test.js
     ├── agent-loop.test.js
-    └── server-api.test.js
+    ├── server-api.test.js
+    └── converter-index.test.js
 ```
 
 ---
@@ -94,9 +95,11 @@ Powered by the **Model Context Protocol (MCP)** via [`figma-developer-mcp`](http
 ## Getting Started
 
 ### 1. Prerequisites
-- Node.js >= 18.0.0 (tested with v22+)
+- Node.js >= 18.0.0 (tested on v22+)
 - A Figma Personal Access Token ([Figma Token Docs](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens))
-- An OpenAI API Key ([OpenAI Platform](https://platform.openai.com/api-keys))
+  - **Required Scope**: `file_content:read` (Read-only access to inspect frames, nodes, and download design assets).
+  - **Permission Level**: View-only access on the Figma file/team is sufficient (no write/edit permission required).
+- An OpenAI API Key ([OpenAI Platform](https://platform.openai.com/api-keys)) with access to `gpt-5.6-luna` or `gpt-4o`.
 
 ### 2. Installation
 ```bash
