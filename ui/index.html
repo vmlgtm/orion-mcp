@@ -420,43 +420,47 @@
         const decoder = new TextDecoder();
         let buffer = '';
 
-        let currentEvent = 'message';
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
           buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop(); // Keep unfinished line in buffer
+          const blocks = buffer.split('\n\n');
+          buffer = blocks.pop() || ''; // Keep trailing incomplete block in buffer
 
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed) {
-              currentEvent = 'message';
-              continue;
+          for (const block of blocks) {
+            if (!block.trim()) continue;
+
+            let eventType = 'message';
+            let eventData = '';
+
+            const lines = block.split('\n');
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (trimmed.startsWith('event:')) {
+                eventType = trimmed.slice(6).trim();
+              } else if (trimmed.startsWith('data:')) {
+                eventData = trimmed.slice(5).trim();
+              }
             }
 
-            if (trimmed.startsWith('event:')) {
-              currentEvent = trimmed.slice(6).trim();
-            } else if (trimmed.startsWith('data:')) {
-              const rawData = trimmed.slice(5).trim();
+            if (eventData) {
               try {
-                const parsed = JSON.parse(rawData);
-                if (currentEvent === 'progress') {
+                const parsed = JSON.parse(eventData);
+                if (eventType === 'progress') {
                   appendProgress(parsed.message || 'Processing...');
-                } else if (currentEvent === 'done') {
+                } else if (eventType === 'done') {
                   generatedHtml = parsed.html || '';
                   previewIframe.srcdoc = generatedHtml;
                   outputSection.classList.remove('hidden');
                   setStatus('Completed', 'success');
                   appendProgress('Ready! Responsive HTML preview is loaded below.');
-                } else if (currentEvent === 'error') {
+                } else if (eventType === 'error') {
                   showError(parsed.error || 'Unknown conversion error.');
                   appendProgress(`Error: ${parsed.error}`, true);
                 }
               } catch (err) {
-                console.warn('Unable to parse SSE chunk:', rawData);
+                console.warn('Unable to parse SSE chunk:', eventData, err);
               }
             }
           }

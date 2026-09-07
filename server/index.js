@@ -17,6 +17,11 @@ app.use(express.json());
 const uiDir = path.resolve(__dirname, '../ui');
 app.use(express.static(uiDir));
 
+// Serve downloaded Figma images and public assets
+const publicDir = path.resolve(__dirname, '../public');
+app.use('/public', express.static(publicDir));
+app.use(express.static(publicDir));
+
 /**
  * Health check endpoint
  */
@@ -52,9 +57,12 @@ app.post('/api/convert', async (req, res) => {
     });
   }
 
+  // Set socket to send immediately without Nagle buffering
+  req.socket?.setNoDelay(true);
+
   // Set headers for Server-Sent Events (SSE)
   res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
   res.setHeader('Connection', 'keep-alive');
   res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy buffering if behind nginx
   res.flushHeaders?.();
