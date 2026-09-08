@@ -1,0 +1,46 @@
+converter/index.js
+  s_b801bb3948db44::t_e09dde16e0b3b2 14
+  s_b801bb3948db44::t_ca11120f2799b2 24,67
+.env.example
+  s_b801bb3948db44::t_40cb22b4083cda 7
+  s_b801bb3948db44::t_e09dde16e0b3b2 4
+  s_b801bb3948db44::t_5924d9f64f29fc 6
+server/index.js
+  s_b801bb3948db44::t_5924d9f64f29fc 94-97,100-111,120,127-129
+converter/agent-loop.js
+  s_b801bb3948db44::t_c6b2d2afce916d 67,83-84,89,130-131,133,149
+  s_b801bb3948db44::t_e09dde16e0b3b2 56,85-88,132
+  s_b4c76201f22a5f::t_9660544227037f 76-77
+  s_b801bb3948db44::t_ab24e2c813499a 94-95,98-100,119-120,144-145,150,153-157,159,162-164,167,193-196,202
+  s_b801bb3948db44::t_40cb22b4083cda 78-81
+  s_b801bb3948db44::t_b88982eccf5916 82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "7947e92198d60aa9f23e6b4708f8491ea8272b9d",
+  "prompts": {},
+  "humans": {
+    "h_da86ad7c2c17ee": {
+      "author": "Vaibhav Misra <vaibhav.misra@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_b4c76201f22a5f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e86c8879-773c-46fd-9c81-2870df28cec9",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Vaibhav Misra <vaibhav.misra@1mg.com>"
+    },
+    "s_b801bb3948db44": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41f34975-517e-4819-9218-cf6f6c0d364e",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Vaibhav Misra <vaibhav.misra@1mg.com>"
+    }
+  }
+}
