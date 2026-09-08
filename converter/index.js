@@ -11,6 +11,7 @@ import { runAgentLoop } from './agent-loop.js';
  * @param {string} [options.figmaToken] - Figma Personal Access Token. Defaults to FIGMA_ACCESS_TOKEN or FIGMA_API_KEY.
  * @param {string} [options.openaiApiKey] - OpenAI API Key. Defaults to OPENAI_API_KEY.
  * @param {string} [options.model] - Target OpenAI model. Defaults to OPENAI_MODEL or gpt-5.6-luna.
+ * @param {string} [options.reasoningEffort] - Reasoning effort ('none' | 'low' | 'medium' | 'high' | 'xhigh' | 'max'). Defaults to OPENAI_REASONING_EFFORT or 'high'.
  * @param {function} [options.onProgress] - Callback `(message: string) => void` for streaming progress updates.
  * @returns {Promise<{ html: string }>} Result object containing the responsive HTML string.
  */
@@ -20,6 +21,7 @@ export async function convertFigmaToHtml({
   figmaToken,
   openaiApiKey,
   model,
+  reasoningEffort,
   onProgress,
 }) {
   if (!desktopUrl || typeof desktopUrl !== 'string') {
@@ -62,6 +64,7 @@ export async function convertFigmaToHtml({
       onProgress,
       openaiApiKey: effectiveOpenaiKey,
       model,
+      reasoningEffort,
     });
 
     return { html };

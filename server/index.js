@@ -91,14 +91,24 @@ app.post('/api/convert', async (req, res) => {
 
   sendEvent('progress', { message: 'Conversion request received. Preparing environment...' });
 
-  const TIMEOUT_MS = 180000; // 3 minutes timeout
+  // High reasoning effort makes runs substantially longer than the original 3 minutes,
+  // so this is configurable. Set CONVERSION_TIMEOUT_MS=0 to disable the cap entirely.
+  const parsedTimeout = Number(process.env.CONVERSION_TIMEOUT_MS);
+  const TIMEOUT_MS = Number.isFinite(parsedTimeout) && parsedTimeout >= 0 ? parsedTimeout : 900000;
   let timeoutId;
 
-  const timeoutPromise = new Promise((_, reject) => {
-    timeoutId = setTimeout(() => {
-      reject(new Error('Conversion timed out after 3 minutes. Please try again or check frame complexity.'));
-    }, TIMEOUT_MS);
-  });
+  const timeoutPromise = TIMEOUT_MS > 0
+    ? new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(
+            new Error(
+              `Conversion timed out after ${Math.round(TIMEOUT_MS / 1000)}s. ` +
+                'Raise CONVERSION_TIMEOUT_MS, lower OPENAI_REASONING_EFFORT, or check frame complexity.'
+            )
+          );
+        }, TIMEOUT_MS);
+      })
+    : null;
 
   try {
     const conversionPromise = convertFigmaToHtml({
@@ -107,13 +117,16 @@ app.post('/api/convert', async (req, res) => {
       figmaToken,
       openaiApiKey,
       model: process.env.OPENAI_MODEL || 'gpt-5.6-luna',
+      reasoningEffort: process.env.OPENAI_REASONING_EFFORT,
       onProgress: (message) => {
         console.log(`[PROGRESS] ${message}`);
         sendEvent('progress', { message });
       },
     });
 
-    const { html } = await Promise.race([conversionPromise, timeoutPromise]);
+    const { html } = timeoutPromise
+      ? await Promise.race([conversionPromise, timeoutPromise])
+      : await conversionPromise;
 
     console.log(`[API /api/convert] SUCCESS! Generated HTML (${html.length} chars). Sending done event.`);
     sendEvent('done', { html });
